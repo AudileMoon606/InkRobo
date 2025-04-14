@@ -222,11 +222,11 @@
       <li><a href="#defis" class="menu-link" data-target="defis">
         <img src="https://img.icons8.com/fluency/48/FFC72C/trophy.png" alt="Défis Icon">Solution</a>
       </li>
-      <li><a href="#jeu" class="menu-link" data-target="jeu">
-        <img src="https://img.icons8.com/fluency/48/FFC72C/controller.png" alt="Jeu Icon">Jeu Interactif</a>
-      </li>
       <li><a href="#apropos" class="menu-link" data-target="apropos">
         <img src="https://img.icons8.com/fluency/48/FFC72C/info.png" alt="À propos Icon">À propos</a>
+      </li>
+      <li><a href="#jeu" class="menu-link" data-target="jeu">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/controller.png" alt="Jeu Icon">Autres Considérations</a>
       </li>
       <li><a href="#references" class="menu-link" data-target="references">
         <img src="https://img.icons8.com/fluency/48/FFC72C/books.png" alt="Références Icon">Références</a>
@@ -486,12 +486,8 @@
     
     <!-- Section Jeu Interactif -->
     <section id="jeu">
-      <h2>Jeu Interactif : Chef de Projet Inclusif</h2>
-      <div class="game-container">
-        <div id="game-content">
-          <!-- La vidéo et les questions seront injectées ici par JavaScript -->
-        </div>
-      </div>
+      <h2>Autres Considérations</h2>
+      <p>donner toute autre considération applicable...</p>
     </section>
     
     <!-- Section Références -->
@@ -541,12 +537,17 @@
     <!-- Section À propos -->
     <section id="apropos">
       <h2>À propos</h2>
+      <h4>
+        Chez InkRobo, nous ne sommes que 5 personnes réunies dans le but unique de révolutionner l'industrie de l'impression sur tissu
+      </h4>
+      <br>
+      <p>Décrire le processus suivi et les mécanismes de fonctionnement de votre équipe...</p>
+      <br>
+      <br>
+      <h4>Nous avons aussi appris beaucoup de leçons au courant de la conception du robot.</h4>
+      <br>
       <p>
-        EDI Dodo Déterminés est un projet éducatif dédié à la promotion des valeurs d’Équité, Diversité et Inclusion.
-        Notre mission est de fournir des ressources de qualité pour aider les organisations à intégrer ces principes au quotidien.
-      </p>
-      <p>
-        Pour toute question ou suggestion, n'hésitez pas à nous contacter.
+        Dire le tout ici...
       </p>
     </section>
   </div>
@@ -597,143 +598,10 @@
       localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     });
     
-    // Jeu interactif "Chef de Projet Inclusif" avec vidéos et questions
-    const scenarios = [
-      {
-        videoUrl: "https://www.youtube.com/embed/pRzCIuz5Hag", // Première vidéo
-        questions: [
-          {
-            question: "Que retenez-vous de cette vidéo sur l'EDI ?",
-            options: [
-              { text: "L'importance de la diversité dans l'équipe.", feedback: "Effectivement, la vidéo insiste sur la richesse des compétences issues de la diversité." },
-              { text: "La vidéo ne mentionne pas vraiment l'EDI.", feedback: "En réalité, plusieurs points essentiels concernant l'EDI sont évoqués." }
-            ]
-          },
-          {
-            question: "Selon vous, quelle action reflète le mieux une démarche inclusive ?",
-            options: [
-              { text: "Impliquer tous les membres dès le début.", feedback: "Exact, impliquer chacun dès le départ valorise leur contribution." },
-              { text: "Attendre que chacun intervienne spontanément.", feedback: "Cette approche risque de laisser certains membres en retrait." }
-            ]
-          }
-        ]
-      },
-      // Exemple de deuxième scénario
-      {
-        videoUrl: "https://www.youtube.com/embed/EXEMPLEvideo2", // Remplacer par une URL vidéo valide
-        questions: [
-          {
-            question: "Quelle leçon principale tirez-vous de cette seconde vidéo ?",
-            options: [
-              { text: "La nécessité d'adapter le management aux différences culturelles.", feedback: "C'est une bonne interprétation, l'adaptation est bien soulignée." },
-              { text: "La vidéo parle uniquement de performances financières.", feedback: "Or, le focus est bien sur l'inclusion et les différences culturelles." }
-            ]
-          }
-        ]
-      }
-    ];
 
     let currentScenario = 0;
     let currentQuestionIndex = 0;
 
-    function displayScenario() {
-      const gameContent = document.getElementById('game-content');
-      gameContent.innerHTML = ""; // Réinitialiser le contenu
-
-      if (currentScenario < scenarios.length) {
-        const scenario = scenarios[currentScenario];
-
-        // Création de l'iframe pour la vidéo YouTube
-        const videoFrame = document.createElement('iframe');
-        videoFrame.setAttribute("src", scenario.videoUrl);
-        videoFrame.setAttribute("width", "560");
-        videoFrame.setAttribute("height", "315");
-        videoFrame.setAttribute("frameborder", "0");
-        videoFrame.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
-        videoFrame.setAttribute("allowfullscreen", "true");
-        gameContent.appendChild(videoFrame);
-
-        // Bouton pour afficher les questions après visionnage de la vidéo
-        const showQuestionsBtn = document.createElement('button');
-        showQuestionsBtn.textContent = "Voir les questions";
-        showQuestionsBtn.className = "next-button";
-        showQuestionsBtn.style.display = "block";
-        showQuestionsBtn.style.margin = "20px auto 0 auto";
-        showQuestionsBtn.addEventListener('click', displayQuestion);
-        gameContent.appendChild(showQuestionsBtn);
-
-        // Réinitialiser l'indice des questions pour ce scénario
-        currentQuestionIndex = 0;
-      } else {
-        gameContent.innerHTML = '<div class="game-question">Félicitations ! Vous avez terminé le jeu interactif.</div>';
-      }
-    }
-
-    function displayQuestion() {
-      const gameContent = document.getElementById('game-content');
-      gameContent.innerHTML = ""; // Effacer la vidéo et le bouton précédent
-
-      const scenario = scenarios[currentScenario];
-
-      // Vérifier si des questions restent pour le scénario actuel
-      if (currentQuestionIndex < scenario.questions.length) {
-        const currentQuestion = scenario.questions[currentQuestionIndex];
-
-        // Afficher la question
-        const questionElem = document.createElement('div');
-        questionElem.className = 'game-question';
-        questionElem.textContent = currentQuestion.question;
-        gameContent.appendChild(questionElem);
-
-        // Créer un conteneur pour les options de réponse
-        const optionsDiv = document.createElement('div');
-        optionsDiv.className = 'game-options';
-        currentQuestion.options.forEach(option => {
-          const btn = document.createElement('button');
-          btn.textContent = option.text;
-          btn.addEventListener('click', () => displayFeedback(option.feedback));
-          optionsDiv.appendChild(btn);
-        });
-        gameContent.appendChild(optionsDiv);
-      }
-    }
-
-    function displayFeedback(feedbackText) {
-      const gameContent = document.getElementById('game-content');
-      
-      // Supprimer les options de réponse une fois la réponse sélectionnée
-      const optionsDiv = gameContent.querySelector('.game-options');
-      if (optionsDiv) optionsDiv.remove();
-
-      // Afficher le feedback de la réponse
-      const feedbackElem = document.createElement('div');
-      feedbackElem.className = 'game-feedback';
-      feedbackElem.textContent = feedbackText;
-      gameContent.appendChild(feedbackElem);
-
-      // Bouton pour passer à la question suivante ou au scénario suivant
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'next-button';
-      
-      // S'il existe d'autres questions dans le scénario, on affiche "Question suivante"
-      if (currentQuestionIndex < scenarios[currentScenario].questions.length - 1) {
-        nextBtn.textContent = "Question suivante";
-        nextBtn.addEventListener('click', () => {
-          currentQuestionIndex++;
-          displayQuestion();
-        });
-      } else {
-        // Sinon, passage au scénario suivant (vidéo suivante)
-        nextBtn.textContent = currentScenario < scenarios.length - 1 ? "Vidéo suivante" : "Terminer";
-        nextBtn.addEventListener('click', () => {
-          currentScenario++;
-          displayScenario();
-        });
-      }
-      gameContent.appendChild(nextBtn);
-    }
-
-    window.addEventListener('DOMContentLoaded', displayScenario);
   </script>
 </body>
 </html>
