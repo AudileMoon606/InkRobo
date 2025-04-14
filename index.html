@@ -15,6 +15,9 @@
       padding: 0;
       box-sizing: border-box;
     }
+        .hidden {
+      display: none;
+    }
     body {
       font-family: 'Roboto', sans-serif;
       background-color: #FFFFFF;
@@ -407,7 +410,13 @@
       </ul>
       <br>
     </section>
-    
+
+    <!-- Section QR Code cachée -->
+    <section id="qr" class="hidden">
+      <h2>Découvrez notre robot de peinture sur tissu – précis, écologique et abordable.</h2>
+      <img src="QR Code.png" alt="QR Code" style="max-width:600px; display:block; margin:auto;">
+    </section>
+
     <!-- Section Défis -->
     <section id="defis">
       <h2>Sélection du meilleur robot</h2>
@@ -656,6 +665,33 @@
 
     let currentScenario = 0;
     let currentQuestionIndex = 0;
+
+    // Vérification de l'URL au chargement pour afficher la section QR si le hash est "#qr"
+    if (window.location.hash === "#qr") {
+      // Masquer toutes les sections actives
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+      });
+      // Afficher la section QR Code
+      const qrSection = document.getElementById("qr");
+      qrSection.classList.remove('hidden'); // Retirer le masquage
+      qrSection.classList.add('active');
+    }
+
+    // Détection d'une combinaison de touches pour révéler la page cachée (Ctrl+Q)
+    document.addEventListener('keydown', (event) => {
+      if (event.ctrlKey && event.key.toLowerCase() === 'q') {
+        // Masquer toutes les sections actives
+        document.querySelectorAll('section').forEach(section => {
+          section.classList.remove('active');
+        });
+        // Afficher la section QR Code
+        const qrSection = document.getElementById("qr");
+        qrSection.classList.remove('hidden');
+        qrSection.classList.add('active');
+      }
+    });
+
 
   </script>
 </body>
