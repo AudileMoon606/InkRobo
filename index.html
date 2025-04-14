@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkRobo</title>
+  <!-- Inclusion de la police Roboto -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    /* Réinitialisation globale */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #FFFFFF;
+      color: #333;
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    a { text-decoration: none; color: inherit; }
+    
+    /* Mode sombre */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    body.dark-mode header {
+      background-color: #1f1f1f;
+      color: #FFC72C;
+    }
+    body.dark-mode #side-menu {
+      background-color: #1f1f1f;
+    }
+    body.dark-mode #side-menu ul li {
+      border-bottom: 1px solid #444;
+    }
+    body.dark-mode .game-container {
+      background: #1f1f1f;
+    }
+    body.dark-mode .game-feedback,
+    body.dark-mode .next-button {
+      background-color: #FFC72C;
+      color: #1f1f1f;
+    }
+    
+    /* Header fixe avec bouton menu et toggle dark mode */
+    header {
+      background-color: #002855;
+      color: #FFC72C;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+    .site-title {
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .header-buttons {
+      display: flex;
+      align-items: center;
+    }
+    .hamburger, .dark-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    /* Menu latéral coulissant */
+    #side-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 250px;
+      background-color: #002855;
+      padding-top: 60px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    #side-menu.active {
+      transform: translateX(0);
+    }
+    #side-menu ul {
+      list-style: none;
+    }
+    #side-menu ul li {
+      padding: 15px 20px;
+      border-bottom: 1px solid #004080;
+    }
+    #side-menu ul li a {
+      color: #FFC72C;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+    #side-menu ul li a img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    
+    /* Conteneur principal */
+    .content {
+      margin-top: 60px;
+      padding: 20px;
+    }
+    section {
+      display: none;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    section.active {
+      display: block;
+    }
+    h1, h2 {
+      color: #2a8c89;
+      margin-bottom: 20px;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    
+    /* Styles spécifiques au jeu interactif */
+    .game-container {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    .game-question {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .game-options button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: none;
+      background-color: #002855;
+      color: #FFC72C;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .game-feedback {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #FFC72C;
+      color: #002855;
+      border-radius: 4px;
+    }
+    .next-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #002855;
+      color: #FFC72C;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    /* Responsive mobile */
+    @media (max-width: 600px) {
+      header {
+        padding: 10px;
+      }
+      #side-menu {
+        width: 200px;
+      }
+      #side-menu ul li {
+        padding: 10px 15px;
+      }
+      .game-options button {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header avec bouton menu et toggle dark mode -->
+  <header>
+    <div class="header-buttons">
+      <button class="hamburger" id="hamburger-btn">
+        <img src="https://img.icons8.com/fluency-systems-filled/24/FFC72C/menu.png" alt="Menu Icon">
+      </button>
+      <span class="site-title">InkRobo</span>
+    </div>
+    <button class="dark-toggle" id="dark-toggle-btn">
+      <img src="https://img.icons8.com/fluency-systems-filled/24/FFC72C/moon-symbol.png" alt="Dark Mode Toggle">
+    </button>
+  </header>
+  
+  <!-- Menu latéral -->
+  <nav id="side-menu">
+    <ul>
+      <li><a href="#accueil" class="menu-link" data-target="accueil">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/home.png" alt="Accueil Icon">Accueil</a>
+      </li>
+      <li><a href="#concepts" class="menu-link" data-target="concepts">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/book.png" alt="Concepts Icon">Objectifs</a>
+      </li>
+      <li><a href="#pratiques" class="menu-link" data-target="pratiques">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/settings.png" alt="Bonnes Pratiques Icon">Bonnes Pratiques</a>
+      </li>
+      <li><a href="#defis" class="menu-link" data-target="defis">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/trophy.png" alt="Défis Icon">Défis</a>
+      </li>
+      <li><a href="#jeu" class="menu-link" data-target="jeu">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/controller.png" alt="Jeu Icon">Jeu Interactif</a>
+      </li>
+      <li><a href="#references" class="menu-link" data-target="references">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/books.png" alt="Références Icon">Références</a>
+      </li>
+      <li><a href="#apropos" class="menu-link" data-target="apropos">
+        <img src="https://img.icons8.com/fluency/48/FFC72C/info.png" alt="À propos Icon">À propos</a>
+      </li>
+    </ul>
+  </nav>
+  
+  <!-- Contenu principal -->
+  <div class="content">
+    <!-- Section Accueil -->
+    <section id="accueil" class="active">
+      <h1>Bienvenue à InkRobo</h1>
+      <p>
+        Ce site vous permettra, chers investisseurs, de voir nôtre étude concernant notre nouveau robot révolutionnaire! Profitez de cette chance pour être les premiers à investir dans le futur. Aujourd'hui seulement profitez de notre offre d'investissment exceptionnelle qui tournera même les pires portfolios en gagnants. 
+      </p>
+      <p>
+        
+      </p>
+    </section>
+    
+    <!-- Section Concepts EDI -->
+    <section id="concepts">
+      <h2>Nos Objectifs</h2>
+      <h3>Problème initial</h3>
+      <p>Dans un monde où de nombreux passionés d'impression sur tissu et de nombreuses nouvelles compagnies qui souhaitent faire ce type d'impression, toutes les imprimantes coûtent un prix complètement insensé.</p>
+      <br>
+      <h3>Nos Objectifs</h3>
+      <ul>
+        <li>Nous voulons d'abord et avant tout offrir </li>
+        <li>La diversité valorise les différences culturelles, professionnelles et personnelles.</li>
+        <li>L’inclusion vise à créer un environnement où chacun se sent accepté et valorisé.</li>
+      </ul>
+      <p>Ces principes, lorsqu'ils sont bien appliqués, améliorent la cohésion des équipes et optimisent la performance globale.</p>
+    </section>
+    
+    <!-- Section Bonnes Pratiques -->
+    <section id="pratiques">
+      <h2>Bonnes Pratiques</h2>
+      <p>Voici quelques recommandations pour intégrer l’EDI dans vos projets :</p>
+      <ul>
+        <li>Valoriser la diversité des parcours : Considérez positivement les interruptions de carrière ou les expériences non traditionnelles, car elles apportent des compétences et perspectives enrichissantes à l'équipe.</li>
+        <li>Sensibiliser aux biais inconscients : Organisez des formations pour reconnaître et minimiser l'impact de ces biais lors des processus de recrutement.</li>
+        <li>Structurer le processus de sélection : Établissez des critères d'évaluation clairs et appliquez-les uniformément.</li>
+        <li>Diversifier les canaux de recrutement : Utilisez plusieurs plateformes pour toucher des profils variés, notamment issus de groupes sous-représentés.</li>
+        <li>Utiliser un langage inclusif : Rédigez des offres d'emploi avec un vocabulaire non genré et sans stéréotypes.</li>
+      </ul>
+      <p>L’application rigoureuse de ces pratiques favorise un environnement de travail harmonieux et performant.</p>
+    </section>
+    
+    <!-- Section Défis -->
+    <section id="defis">
+      <h2>Défis</h2>
+      <h3>L’intégration de l’EDI peut rencontrer divers obstacles. Voici quelques défis et leurs solutions :</h3>
+      <br>
+      <h4>Défi 1 : Recrutement biaisé et manque de diversité</h4>
+      <ul>
+        <li>Solution : Mettre en place un recrutement inclusif en diversifiant les canaux et en adoptant des critères de sélection objectifs.</li>
+      </ul>
+      <br>
+      <h4>Défi 2 : Difficulté d'intégration des nouveaux membres issus de groupes sous-représentés</h4>
+      <ul>
+        <li>Solution : Proposer un programme d'accueil structuré avec des mentors de divers horizons.</li>
+      </ul>
+      <br>
+      <h4>Défi 3 : Communication inefficace au sein de l'équipe</h4>
+      <ul>
+        <li>Solution : Instaurer des espaces de dialogue réguliers pour favoriser une communication ouverte.</li>
+      </ul>
+      <br>
+      <h4>Défi 4 : Manque de sensibilisation aux enjeux d'EDI</h4>
+      <ul>
+        <li>Solution : Organiser des formations continues sur les principes d'EDI.</li>
+      </ul>
+      <br>
+      <h4>Défi 5 : Absence de mécanismes pour assurer la sécurité psychologique</h4>
+      <ul>
+        <li>Solution : Mettre en place des procédures pour signaler et traiter les incidents de discrimination ou de harcèlement.</li>
+      </ul>
+    </section>
+    
+    <!-- Section Jeu Interactif -->
+    <section id="jeu">
+      <h2>Jeu Interactif : Chef de Projet Inclusif</h2>
+      <div class="game-container">
+        <div id="game-content">
+          <!-- La vidéo et les questions seront injectées ici par JavaScript -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section Références -->
+    <section id="references">
+      <h2>Références</h2>
+      <p>Voici quelques références bibliographiques :</p>
+      <ol>
+        <!-- Exemples :
+        <li>[1] J. Dupont, <em>Intégration de l’EDI en gestion de projet</em>, Paris, 2020.</li>
+        -->
+      </ol>
+    </section>
+    
+
+    
+    <!-- Section À propos -->
+    <section id="apropos">
+      <h2>À propos</h2>
+      <p>
+        EDI Dodo Déterminés est un projet éducatif dédié à la promotion des valeurs d’Équité, Diversité et Inclusion.
+        Notre mission est de fournir des ressources de qualité pour aider les organisations à intégrer ces principes au quotidien.
+      </p>
+      <p>
+        Pour toute question ou suggestion, n'hésitez pas à nous contacter.
+      </p>
+    </section>
+  </div>
+  
+  <!-- Script JavaScript pour la navigation et le jeu interactif -->
+  <script>
+    // Gestion de la navigation en mode "pages"
+    const menuLinks = document.querySelectorAll('.menu-link');
+    const sections = document.querySelectorAll('section');
+    const sideMenu = document.getElementById('side-menu');
+    const darkToggleBtn = document.getElementById('dark-toggle-btn');
+    
+    // Affichage de la section sauvegardée ou la section "accueil" par défaut
+    const savedSection = localStorage.getItem('activeSection');
+    if (savedSection) {
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(savedSection).classList.add('active');
+    } else {
+      document.getElementById('accueil').classList.add('active');
+    }
+    
+    // Mise à jour de la section active lors d'un clic sur un lien du menu
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('data-target');
+        sections.forEach(section => section.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        // Sauvegarde de la section active dans le localStorage
+        localStorage.setItem('activeSection', targetId);
+        sideMenu.classList.remove('active');
+      });
+    });
+    
+    // Toggle du menu hamburger
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    hamburgerBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('active');
+    });
+    
+    // Gestion du mode sombre avec sauvegarde de l'état dans localStorage
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+    
+    darkToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    
+    // Jeu interactif "Chef de Projet Inclusif" avec vidéos et questions
+    const scenarios = [
+      {
+        videoUrl: "https://www.youtube.com/embed/pRzCIuz5Hag", // Première vidéo
+        questions: [
+          {
+            question: "Que retenez-vous de cette vidéo sur l'EDI ?",
+            options: [
+              { text: "L'importance de la diversité dans l'équipe.", feedback: "Effectivement, la vidéo insiste sur la richesse des compétences issues de la diversité." },
+              { text: "La vidéo ne mentionne pas vraiment l'EDI.", feedback: "En réalité, plusieurs points essentiels concernant l'EDI sont évoqués." }
+            ]
+          },
+          {
+            question: "Selon vous, quelle action reflète le mieux une démarche inclusive ?",
+            options: [
+              { text: "Impliquer tous les membres dès le début.", feedback: "Exact, impliquer chacun dès le départ valorise leur contribution." },
+              { text: "Attendre que chacun intervienne spontanément.", feedback: "Cette approche risque de laisser certains membres en retrait." }
+            ]
+          }
+        ]
+      },
+      // Exemple de deuxième scénario
+      {
+        videoUrl: "https://www.youtube.com/embed/EXEMPLEvideo2", // Remplacer par une URL vidéo valide
+        questions: [
+          {
+            question: "Quelle leçon principale tirez-vous de cette seconde vidéo ?",
+            options: [
+              { text: "La nécessité d'adapter le management aux différences culturelles.", feedback: "C'est une bonne interprétation, l'adaptation est bien soulignée." },
+              { text: "La vidéo parle uniquement de performances financières.", feedback: "Or, le focus est bien sur l'inclusion et les différences culturelles." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let currentScenario = 0;
+    let currentQuestionIndex = 0;
+
+    function displayScenario() {
+      const gameContent = document.getElementById('game-content');
+      gameContent.innerHTML = ""; // Réinitialiser le contenu
+
+      if (currentScenario < scenarios.length) {
+        const scenario = scenarios[currentScenario];
+
+        // Création de l'iframe pour la vidéo YouTube
+        const videoFrame = document.createElement('iframe');
+        videoFrame.setAttribute("src", scenario.videoUrl);
+        videoFrame.setAttribute("width", "560");
+        videoFrame.setAttribute("height", "315");
+        videoFrame.setAttribute("frameborder", "0");
+        videoFrame.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+        videoFrame.setAttribute("allowfullscreen", "true");
+        gameContent.appendChild(videoFrame);
+
+        // Bouton pour afficher les questions après visionnage de la vidéo
+        const showQuestionsBtn = document.createElement('button');
+        showQuestionsBtn.textContent = "Voir les questions";
+        showQuestionsBtn.className = "next-button";
+        showQuestionsBtn.style.display = "block";
+        showQuestionsBtn.style.margin = "20px auto 0 auto";
+        showQuestionsBtn.addEventListener('click', displayQuestion);
+        gameContent.appendChild(showQuestionsBtn);
+
+        // Réinitialiser l'indice des questions pour ce scénario
+        currentQuestionIndex = 0;
+      } else {
+        gameContent.innerHTML = '<div class="game-question">Félicitations ! Vous avez terminé le jeu interactif.</div>';
+      }
+    }
+
+    function displayQuestion() {
+      const gameContent = document.getElementById('game-content');
+      gameContent.innerHTML = ""; // Effacer la vidéo et le bouton précédent
+
+      const scenario = scenarios[currentScenario];
+
+      // Vérifier si des questions restent pour le scénario actuel
+      if (currentQuestionIndex < scenario.questions.length) {
+        const currentQuestion = scenario.questions[currentQuestionIndex];
+
+        // Afficher la question
+        const questionElem = document.createElement('div');
+        questionElem.className = 'game-question';
+        questionElem.textContent = currentQuestion.question;
+        gameContent.appendChild(questionElem);
+
+        // Créer un conteneur pour les options de réponse
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'game-options';
+        currentQuestion.options.forEach(option => {
+          const btn = document.createElement('button');
+          btn.textContent = option.text;
+          btn.addEventListener('click', () => displayFeedback(option.feedback));
+          optionsDiv.appendChild(btn);
+        });
+        gameContent.appendChild(optionsDiv);
+      }
+    }
+
+    function displayFeedback(feedbackText) {
+      const gameContent = document.getElementById('game-content');
+      
+      // Supprimer les options de réponse une fois la réponse sélectionnée
+      const optionsDiv = gameContent.querySelector('.game-options');
+      if (optionsDiv) optionsDiv.remove();
+
+      // Afficher le feedback de la réponse
+      const feedbackElem = document.createElement('div');
+      feedbackElem.className = 'game-feedback';
+      feedbackElem.textContent = feedbackText;
+      gameContent.appendChild(feedbackElem);
+
+      // Bouton pour passer à la question suivante ou au scénario suivant
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'next-button';
+      
+      // S'il existe d'autres questions dans le scénario, on affiche "Question suivante"
+      if (currentQuestionIndex < scenarios[currentScenario].questions.length - 1) {
+        nextBtn.textContent = "Question suivante";
+        nextBtn.addEventListener('click', () => {
+          currentQuestionIndex++;
+          displayQuestion();
+        });
+      } else {
+        // Sinon, passage au scénario suivant (vidéo suivante)
+        nextBtn.textContent = currentScenario < scenarios.length - 1 ? "Vidéo suivante" : "Terminer";
+        nextBtn.addEventListener('click', () => {
+          currentScenario++;
+          displayScenario();
+        });
+      }
+      gameContent.appendChild(nextBtn);
+    }
+
+    window.addEventListener('DOMContentLoaded', displayScenario);
+  </script>
+</body>
+</html>
