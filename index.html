@@ -220,7 +220,7 @@
         <img src="https://img.icons8.com/fluency/48/FFC72C/settings.png" alt="Bonnes Pratiques Icon">Sous-Systèmes</a>
       </li>
       <li><a href="#defis" class="menu-link" data-target="defis">
-        <img src="https://img.icons8.com/fluency/48/FFC72C/trophy.png" alt="Défis Icon">Défis</a>
+        <img src="https://img.icons8.com/fluency/48/FFC72C/trophy.png" alt="Défis Icon">Solution</a>
       </li>
       <li><a href="#jeu" class="menu-link" data-target="jeu">
         <img src="https://img.icons8.com/fluency/48/FFC72C/controller.png" alt="Jeu Icon">Jeu Interactif</a>
@@ -400,33 +400,88 @@
     
     <!-- Section Défis -->
     <section id="defis">
-      <h2>Défis</h2>
-      <h3>L’intégration de l’EDI peut rencontrer divers obstacles. Voici quelques défis et leurs solutions :</h3>
+      <h2>Sélection du meilleur robot</h2>
+      <h3>Le procesus de sélection du meilleur robot a été un processus long et ardu.</h3>
       <br>
-      <h4>Défi 1 : Recrutement biaisé et manque de diversité</h4>
-      <ul>
-        <li>Solution : Mettre en place un recrutement inclusif en diversifiant les canaux et en adoptant des critères de sélection objectifs.</li>
-      </ul>
+      <h4>C'est pourquoi nous avons eu à imposer certains critères : </h4>
+      <style>
+        table, th, td {
+          border:3px solid rgb(8, 135, 189);
+        }
+        </style>
+        <table style="width:100%">
+            <tr>
+              <td>Précision du tracé</td>
+              <td>25%</td>
+            </tr>
+            <tr>
+              <td>Gestion des couleurs</td>
+              <td>15%</td>
+            </tr>
+            <tr>
+                <td>Séchage de la peinture</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>Compatibilité avec les tissus</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>Vitesse d'exécution</td>
+                <td>15%</td>
+            </tr>
+            <tr>
+                <td>Facilité d'utilisation</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>Maintenance et nettoyage</td>
+                <td>5%</td>
+            </tr>
+            <tr>
+                <td>Modularité et évoluvité</td>
+                <td>5%</td>
+            </tr>
+            <tr>
+                <td>Efficacité énergitique</td>
+                <td>3%</td>
+            </tr>
+            <tr>
+                <td>Robustesse du matériel</td>
+                <td>2%</td>
+            </tr>
+          </table>
       <br>
-      <h4>Défi 2 : Difficulté d'intégration des nouveaux membres issus de groupes sous-représentés</h4>
-      <ul>
-        <li>Solution : Proposer un programme d'accueil structuré avec des mentors de divers horizons.</li>
-      </ul>
-      <br>
-      <h4>Défi 3 : Communication inefficace au sein de l'équipe</h4>
-      <ul>
-        <li>Solution : Instaurer des espaces de dialogue réguliers pour favoriser une communication ouverte.</li>
-      </ul>
-      <br>
-      <h4>Défi 4 : Manque de sensibilisation aux enjeux d'EDI</h4>
-      <ul>
-        <li>Solution : Organiser des formations continues sur les principes d'EDI.</li>
-      </ul>
-      <br>
-      <h4>Défi 5 : Absence de mécanismes pour assurer la sécurité psychologique</h4>
-      <ul>
-        <li>Solution : Mettre en place des procédures pour signaler et traiter les incidents de discrimination ou de harcèlement.</li>
-      </ul>
+      <h4>En suivant ces critères nous avons conclus que le robot suivant serait la meilleure option.</h4>
+      <p>Ce modèle envisagé est celui qui fait appel à la modularité, à la sobriété et à la 
+        robustesse, ce qui est tout à fait à propos pour le domaine éducatif ou semi-professionnel. 
+        Il ne fait appel qu’à un écran tactique ELECROW comme interface humain-machine (≈ 40 
+        $), simplifiant l’interaction directe qui ne nécessite pas de connexion réseau. La sécurité 
+        est assurée par un bouton d’arrêt d’urgence (≈ 15 $) et des capteurs thermiques DS18B20 
+        (≈ 10 $ chacun), le verrouillage électromagnétique étant volontairement écarté pour des 
+        raisons pratiques. Le positionnement du tissu combine des rouleaux motorisés (≈ 8 $) pour 
+        automatiser l’entrée et des guides mécaniques réglables (≈ 1 $) pour un placement manuel. 
+        L’alimentation électrique est modulaire (≈ 3 $), la prise étant interchangeable selon les 
+        régions, protégée en plus par un disjoncteur intégré (≈ 5 $). Le déposeur de tête 
+        d’impression se déplace en abscisse, le tissu en ordonnée, ce qui rappelle une configuration 
+        faisant déjà partie des imprimantes 3D, ce qui est simple à réaliser (≈ 30 $). La dépose 
+        d’encre par une tête de jet d’encre continue reprise (≈ 40 $) alimentée par gravité par le 
+        réservoir (≈ 10 $), sans pompe, permet de limiter le nombre de composants actifs. Le 
+        séchage s’effectue exclusivement par conduction grâce à une plaque chauffante se 
+        présentant sous le tissu (≈ 30 $), silencieuse, fiable. Enfin, il est piloté par un Raspberry 
+        (≈ 16 $) couplé à une carte d’extension contenant un FPGA (≈ 25 $), permettant une 
+        gestion précise du minutage des buses d’impression. L’ensemble représente une solution 
+        compacte, écoénergétique et évolutive, pour un coût estimé entre 175 et 190 $ CAD.</p>
+        <br>
+        <p>Dans le cadre de cette étude, parmi toutes les configurations analysées, ce système apparaît 
+            comme le choix le plus équilibré pour une utilisation à la fois éducative et semi
+            professionnelle. Il se présente sous une forme modulaire, reste énergétiquement peu 
+            coûteux et se nettoie facilement, ce qui en fait une solution durable et évolutive. Bien 
+            qu’il ne soit pas le plus rapide ou le plus simple à produire, on peut lui reconnaître 
+            une précision satisfaisante, un excellent séchage par plaque chauffante, et une 
+            bonne compatibilité avec plusieurs tissus. Tout cela concourt à sa qualité de robot à 
+            la fois performant, fiable et polyvalent pour un environnement varié, et c’est pour cela 
+            qu’il a été choisi. </p>
     </section>
     
     <!-- Section Jeu Interactif -->
